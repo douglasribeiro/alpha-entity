@@ -24,5 +24,9 @@ public interface InquilinoRepository extends JpaRepository<Inquilino, Long>{
 	@Transactional(readOnly=true)
 	@Query("SELECT obj FROM Inquilino obj")
 	Page<Inquilino> findPageInquilino(PageRequest pageRequest);
+	
+	@Transactional(readOnly=true)
+	@Query("SELECT inq from Inquilino inq WHERE inq.id = :id")
+	Optional<Inquilino> buscaPorId(Long id);
 
 }
