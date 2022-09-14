@@ -22,12 +22,13 @@ public class Cidade implements Serializable {
 	@Column(length = 70)
 	private String nome;
 	
-	private Integer estado;
+	@ManyToOne
+	private Estado estado;
 	
 	public Cidade() {
 	}
 
-	public Cidade(Integer id, String nome, Integer estado) {
+	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -50,11 +51,11 @@ public class Cidade implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Integer estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 

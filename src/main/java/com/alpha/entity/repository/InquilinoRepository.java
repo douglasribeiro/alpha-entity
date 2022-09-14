@@ -18,7 +18,7 @@ public interface InquilinoRepository extends JpaRepository<Inquilino, Long>{
 	
 	
 	@Transactional(readOnly=true)
-	@Query("SELECT obj FROM Inquilino obj WHERE obj.ativo = true")
+	@Query("FROM Inquilino as i WHERE i.ativo = true")
 	public List<Inquilino> findInquilinosAtivos();
 	
 	@Transactional(readOnly=true)

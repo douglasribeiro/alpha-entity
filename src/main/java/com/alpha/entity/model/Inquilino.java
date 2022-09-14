@@ -170,14 +170,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.telefones = telefones;
 	}
 
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-
 	public Boolean getAtivo() {
 		return ativo;
 	}
@@ -200,6 +192,14 @@ public class Inquilino extends BaseEntity implements Serializable {
 
 	public void setNaturalidade(String naturalidade) {
 		this.naturalidade = naturalidade;
+	}
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	@Override
