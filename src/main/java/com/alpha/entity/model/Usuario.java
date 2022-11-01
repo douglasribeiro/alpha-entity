@@ -2,7 +2,6 @@ package com.alpha.entity.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -89,23 +88,6 @@ public class Usuario implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		this.perfis.add(perfil.getCodigo());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		return Objects.equals(id, other.id);
 	}
 
 }

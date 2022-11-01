@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -64,12 +61,14 @@ public class Inquilino extends BaseEntity implements Serializable {
 	@Column(length = 20)
 	private String naturalidade;
 	
-	@ElementCollection
-	@CollectionTable(name="TELEFONE")
-	private Set<String> telefones = new HashSet<>();
+	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	private Set<Telefone> telefones = new HashSet<>();
 	
 	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
+	
+	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	private List<Referencia> referencias = new ArrayList<>();
 	
 	public Inquilino() {}
 
@@ -162,11 +161,11 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public Set<String> getTelefones() {
+	public Set<Telefone> getTelefones() {
 		return telefones;
 	}
 
-	public void setTelefones(Set<String> telefones) {
+	public void setTelefones(Set<Telefone> telefones) {
 		this.telefones = telefones;
 	}
 
@@ -202,23 +201,14 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.enderecos = enderecos;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public void setReferencias(List<Referencia> referencias) {
+		this.referencias = referencias;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Inquilino other = (Inquilino) obj;
-		return Objects.equals(id, other.id);
+	public List<Referencia> getReferencias() {
+		return referencias;
 	}
-	
+
 	
 	
 }
