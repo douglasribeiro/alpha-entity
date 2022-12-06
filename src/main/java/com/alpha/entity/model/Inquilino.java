@@ -15,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.alpha.entity.model.enums.EstCivil;
@@ -64,7 +65,8 @@ public class Inquilino extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
 	private Set<Telefone> telefones = new HashSet<>();
 	
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	//@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	@ManyToMany
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)

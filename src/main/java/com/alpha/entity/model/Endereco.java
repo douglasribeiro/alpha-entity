@@ -1,7 +1,8 @@
 package com.alpha.entity.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.alpha.entity.model.enums.TipoEndereco;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable {
@@ -43,10 +43,11 @@ public class Endereco implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private TipoEndereco tipoEndereco;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="inquilino_id")
-	private Inquilino inquilino;
+//	@JsonIgnore
+//	@ManyToOne
+//	@JoinColumn(name="inquilino_id")
+//	private Inquilino inquilino;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
@@ -65,7 +66,7 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.tipoEndereco = tipoEndereco;
-		this.inquilino = inquilino;
+//		this.inquilino = inquilino;
 		this.cidade = cidade;
 	}
 
@@ -135,13 +136,15 @@ public class Endereco implements Serializable {
 		this.tipoEndereco = tipoEndereco;
 	}
 
-	public Inquilino getInquilino() {
-		return inquilino;
-	}
-
-	public void setInquilino(Inquilino inquilino) {
-		this.inquilino = inquilino;
-	}
+//	public Inquilino getInquilino() {
+//		return inquilino;
+//	}
+//
+//	public void setInquilino(Inquilino inquilino) {
+//		this.inquilino = inquilino;
+//	}
+	
+	
 
 	@Override
 	public int hashCode() {
