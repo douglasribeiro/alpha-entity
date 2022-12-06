@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.alpha.entity.model.enums.TipoTelefone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -20,27 +21,37 @@ public class Telefone implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="inquilino_id")
-	private Inquilino inquilino;
-	
 	@Column(length = 2)
 	private String ddd;
 
 	@Column(length = 10)
 	private String numero;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="inquilino_id")
+	private Inquilino inquilino;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="proprietario_id")
+	private Proprietario proprietario;
+	
+	private Integer tipo;
+	
 	public Telefone() {
 		super();
 	}
 
-	public Telefone(Integer id, Inquilino inquilino, String ddd, String numero) {
+	public Telefone(Integer id, String ddd, String numero, TipoTelefone tipo,
+			Inquilino inquilino, Proprietario proprietario) {
 		super();
 		this.id = id;
-		this.inquilino = inquilino;
 		this.ddd = ddd;
 		this.numero = numero;
+		this.tipo = (tipo==null) ? null : tipo.getCodigo();
+		this.inquilino = inquilino;
+		this.proprietario = proprietario;
 	}
 
 	public Integer getId() {
@@ -49,14 +60,6 @@ public class Telefone implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Inquilino getInquilino() {
-		return inquilino;
-	}
-
-	public void setInquilino(Inquilino inquilino) {
-		this.inquilino = inquilino;
 	}
 
 	public String getDdd() {
@@ -75,7 +78,30 @@ public class Telefone implements Serializable {
 		this.numero = numero;
 	}
 
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
 
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
+	}
+
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public TipoTelefone getTipo() {
+		return TipoTelefone.toEnum(tipo);
+	}
+
+	public void setTipo(TipoTelefone tipo) {
+		this.tipo = tipo.getCodigo();
+	}
+	
 	
 	
 }

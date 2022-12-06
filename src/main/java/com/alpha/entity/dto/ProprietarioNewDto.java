@@ -1,43 +1,40 @@
-package com.alpha.entity.model;
+package com.alpha.entity.dto;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.alpha.entity.model.Endereco;
+import com.alpha.entity.model.Referencia;
+import com.alpha.entity.model.Telefone;
 import com.alpha.entity.model.enums.EstCivil;
 import com.alpha.entity.model.enums.Tipo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
-public class Inquilino extends BaseEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class ProprietarioNewDto {
 	
-	@Column(length = 100)
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Length(min=5, max=100, message="O tamanho deve ser entre 5 e 100 caracteres")
 	private String nome;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Tipo pessoa;
 	
-	@Column(unique=true, length = 20)
+	@NotEmpty(message="Preenchimento obrigatório")
 	private String cpfcnpj;
 	
-	@Column(length = 25)
 	private String identinscr;
 	
-	@Column(unique=true)
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Email(message="Email inválido")
 	private String email;
 	
 	@JsonFormat(pattern="dd/MM/yyyy")
@@ -46,15 +43,12 @@ public class Inquilino extends BaseEntity implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private EstCivil estCivil;
 	
-	@Column(length = 20)
 	private String sexo;
 	
 	private Boolean ativo;
 	
-	@Column(length = 20)
 	private String nacional;
 	
-	@Column(length = 20)
 	private String naturalidade;
 	
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -62,36 +56,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 	private List<Telefone> telefones = new ArrayList<>();
 	
 	private List<Referencia> referencias = new ArrayList<>();
-	
-	public Inquilino() {}
-
-	public Inquilino(Long id, String nome, Tipo pessoa, String cpfcnpj, String identinscr, String email, Date dtNiver,
-			EstCivil estCivil, String sexo, Boolean ativo, String nacional, String naturalidade) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.pessoa = pessoa;
-		this.cpfcnpj = cpfcnpj;
-		this.identinscr = identinscr;
-		this.email = email;
-		this.dtNiver = dtNiver;
-		this.estCivil = estCivil;
-		this.sexo = sexo;
-		this.ativo = ativo;
-		this.nacional = nacional;
-		this.naturalidade = naturalidade;
-	}
-
-	@Override
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -181,7 +145,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.naturalidade = naturalidade;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -190,7 +153,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.enderecos = enderecos;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
@@ -199,7 +161,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.telefones = telefones;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
 	public List<Referencia> getReferencias() {
 		return referencias;
 	}
@@ -207,5 +168,5 @@ public class Inquilino extends BaseEntity implements Serializable {
 	public void setReferencias(List<Referencia> referencias) {
 		this.referencias = referencias;
 	}
-	
+
 }

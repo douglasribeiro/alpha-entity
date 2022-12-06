@@ -1,8 +1,6 @@
 package com.alpha.entity.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
 import com.alpha.entity.model.enums.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable {
@@ -43,21 +43,27 @@ public class Endereco implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private TipoEndereco tipoEndereco;
 	
-//	@JsonIgnore
-//	@ManyToOne
-//	@JoinColumn(name="inquilino_id")
-//	private Inquilino inquilino;
+	@Column(length = 75)
+	private String cidade;
 	
+	@Column(length = 2)
+	private String estado;
 	
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="cidade_id")
-	private Cidade cidade;
+	@JoinColumn(name="inquilino_id")
+	private Inquilino inquilino;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="proprietario_id")
+	private Proprietario proprietario;
+		
 	public Endereco() {
 	}
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
-			TipoEndereco tipoEndereco, Inquilino inquilino, Cidade cidade) {
+			TipoEndereco tipoEndereco, String cidade, String estado, Inquilino inquilino, Proprietario proprietario) {
 		super();
 		this.id = id;
 		this.logradouro = logradouro;
@@ -66,8 +72,10 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.tipoEndereco = tipoEndereco;
-//		this.inquilino = inquilino;
 		this.cidade = cidade;
+		this.estado = estado;
+		this.inquilino = inquilino;
+		this.proprietario = proprietario;
 	}
 
 
@@ -120,14 +128,6 @@ public class Endereco implements Serializable {
 		this.cep = cep;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
 	public TipoEndereco getTipoEndereco() {
 		return tipoEndereco;
 	}
@@ -135,17 +135,39 @@ public class Endereco implements Serializable {
 	public void setTipoEndereco(TipoEndereco tipoEndereco) {
 		this.tipoEndereco = tipoEndereco;
 	}
-
-//	public Inquilino getInquilino() {
-//		return inquilino;
-//	}
-//
-//	public void setInquilino(Inquilino inquilino) {
-//		this.inquilino = inquilino;
-//	}
 	
-	
+	public String getCidade() {
+		return cidade;
+	}
 
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
+
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
+	}
+
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -169,8 +191,5 @@ public class Endereco implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	
-	
-	
+	}	
 }

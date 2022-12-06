@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +20,7 @@ import com.alpha.entity.model.enums.Tipo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class Inquilino extends BaseEntity implements Serializable {
+public class Proprietario extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -63,9 +62,9 @@ public class Inquilino extends BaseEntity implements Serializable {
 	
 	private List<Referencia> referencias = new ArrayList<>();
 	
-	public Inquilino() {}
+	public Proprietario() {}
 
-	public Inquilino(Long id, String nome, Tipo pessoa, String cpfcnpj, String identinscr, String email, Date dtNiver,
+	public Proprietario(Long id, String nome, Tipo pessoa, String cpfcnpj, String identinscr, String email, Date dtNiver,
 			EstCivil estCivil, String sexo, Boolean ativo, String nacional, String naturalidade) {
 		super();
 		this.id = id;
@@ -181,7 +180,7 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.naturalidade = naturalidade;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="proprietario", cascade=CascadeType.ALL)
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -190,7 +189,7 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.enderecos = enderecos;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="proprietario", cascade=CascadeType.ALL)
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
@@ -199,7 +198,7 @@ public class Inquilino extends BaseEntity implements Serializable {
 		this.telefones = telefones;
 	}
 
-	@OneToMany(mappedBy="inquilino", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="proprietario", cascade=CascadeType.ALL)
 	public List<Referencia> getReferencias() {
 		return referencias;
 	}
@@ -207,5 +206,6 @@ public class Inquilino extends BaseEntity implements Serializable {
 	public void setReferencias(List<Referencia> referencias) {
 		this.referencias = referencias;
 	}
+	
 	
 }

@@ -1,5 +1,7 @@
 package com.alpha.entity.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Referencia extends BaseEntity {
+public class Referencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,11 +39,16 @@ public class Referencia extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name="inquilino_id")
 	private Inquilino inquilino;
-
-	public Referencia() {}
 	
-	public Referencia(Long id, String nome, String email, String phone01, String phone02, String observacao,
-			Inquilino inquilino) {
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="proprietario_id")
+	private Proprietario proprietario;
+	
+	public Referencia() {}
+
+	public Referencia(Long id, String nome, String email, String phone01, String phone02, String observacao, Inquilino inquilino,
+			Proprietario proprietario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -50,8 +57,10 @@ public class Referencia extends BaseEntity {
 		this.phone02 = phone02;
 		this.observacao = observacao;
 		this.inquilino = inquilino;
+		this.proprietario = proprietario;
 	}
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -98,6 +107,22 @@ public class Referencia extends BaseEntity {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
+
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
+	}
+
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
 	}
 	
 }

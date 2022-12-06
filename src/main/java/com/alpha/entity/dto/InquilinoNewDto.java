@@ -56,7 +56,7 @@ public class InquilinoNewDto {
 	
 	private String nacional;
 	
-	private Set<String> telefones = new HashSet<>();
+	private List<String> telefones = new ArrayList<>();
 	
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -125,11 +125,11 @@ public class InquilinoNewDto {
 		this.sexo = sexo;
 	}
 
-	public Set<String> getTelefones() {
+	public List<String> getTelefones() {
 		return telefones;
 	}
 
-	public void setTelefones(Set<String> telefones) {
+	public void setTelefones(List<String> telefones) {
 		this.telefones = telefones;
 	}
 

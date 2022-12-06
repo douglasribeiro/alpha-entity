@@ -22,7 +22,7 @@ public abstract class BaseEntity implements Serializable{
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
     
-    //protected Long id;
+    protected Long id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date includeDate;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -42,12 +42,12 @@ public abstract class BaseEntity implements Serializable{
         }
     }
     
-//    @Transient
-//    public abstract Long getId();
-//    
-//    public void setId(Long id){
-//        this.id = id;
-//    }
+    @Transient
+    public abstract Long getId();
+    
+    public void setId(Long id){
+        this.id = id;
+    }
     
     @Column(name = "dt_inserido", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
