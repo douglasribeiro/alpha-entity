@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Proprietario extends BaseEntity implements Serializable {
+public class Proprietario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -88,7 +88,7 @@ public class Proprietario extends BaseEntity implements Serializable {
 		this.naturalidade = naturalidade;
 	}
 
-	@Override
+	//@Override
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long getId() {
@@ -215,7 +215,7 @@ public class Proprietario extends BaseEntity implements Serializable {
 	}
 
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany()
 	@JoinTable(
 			name = "Proprietario_imovel",
 			joinColumns = @JoinColumn(name = "proprietario_id"),

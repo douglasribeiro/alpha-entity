@@ -22,12 +22,13 @@ import javax.persistence.Transient;
 import com.alpha.entity.model.enums.TipoEdificacao;
 import com.alpha.entity.model.enums.TipoImovel;
 import com.alpha.entity.model.enums.TipoServico;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Imovel extends BaseEntity implements Serializable {
+public class Imovel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
+	
 	private Endereco endereco;
 	
 	@Column(length = 80)
@@ -134,7 +135,7 @@ public class Imovel extends BaseEntity implements Serializable {
 	}
 
 
-	@Override
+	//@Override
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long getId() {
