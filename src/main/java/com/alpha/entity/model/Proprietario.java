@@ -13,16 +13,21 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.alpha.entity.model.enums.EstCivil;
 import com.alpha.entity.model.enums.Tipo;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Proprietario extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
 	
 	@Column(length = 100)
 	private String nome;
@@ -61,6 +66,8 @@ public class Proprietario extends BaseEntity implements Serializable {
 	private List<Telefone> telefones = new ArrayList<>();
 	
 	private List<Referencia> referencias = new ArrayList<>();
+	
+	private List<Imovel> imoveis = new ArrayList<>();
 	
 	public Proprietario() {}
 
@@ -206,6 +213,20 @@ public class Proprietario extends BaseEntity implements Serializable {
 	public void setReferencias(List<Referencia> referencias) {
 		this.referencias = referencias;
 	}
-	
+
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "Proprietario_imovel",
+			joinColumns = @JoinColumn(name = "proprietario_id"),
+			inverseJoinColumns = @JoinColumn(name = "imoveis_id")
+			)
+	public List<Imovel> getImoveis() {
+		return imoveis;
+	}
+
+	public void setImoveis(List<Imovel> imoveis) {
+		this.imoveis = imoveis;
+	}
 	
 }

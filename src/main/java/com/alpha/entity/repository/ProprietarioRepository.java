@@ -29,4 +29,13 @@ public interface ProprietarioRepository extends JpaRepository<Proprietario, Long
 	@Query("SELECT inq from Proprietario inq WHERE inq.id = :id")
 	Optional<Proprietario> buscaPorId(Long id);
 	
+	@Transactional(readOnly=true)
+	@Query("SELECT pro from Proprietario pro WHERE pro.nome like %:nome%")
+	Optional<Proprietario> searchNome(String nome);
+	
+	@Transactional(readOnly=true)
+	@Query("SELECT pro from Proprietario pro WHERE pro.email like %:email%")
+	Optional<Proprietario> searchEmail(String email);
+	
+	
 }

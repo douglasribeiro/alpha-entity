@@ -1,9 +1,12 @@
 package com.alpha.entity.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -12,17 +15,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import com.alpha.entity.model.enums.TipoEdificacao;
 import com.alpha.entity.model.enums.TipoImovel;
 import com.alpha.entity.model.enums.TipoServico;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Imovel extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Endereco endereco;
+	
+	@Column(length = 80)
+	private String Logradouro;
+	
+	
+	@Column(length = 8)
+	private String numero;
+	
+	@Column(length = 100)
+	private String nomProprietario;
 	
 	@Column(length = 20)
 	private String matricula;
@@ -64,11 +80,40 @@ public class Imovel extends BaseEntity implements Serializable {
 	
 	private Set<String> fotos = new HashSet<>();
 		
+	private List<Proprietario> proprietario = new ArrayList<>();
+		
 	public Imovel() {}
 	
-	public Imovel(Long id, Endereco endereco, String matricula, String complemento, Boolean condominio, Integer tipo,
-			Integer edificacao, Integer servico, String areaTotal, String areaConstruida, String banheiros,
-			String quartos, String suites, String comodos, String vagas, String observacao) {
+	public Imovel(Long id, Endereco endereco, String Logradouro, String numero, String nomProprietario, String matricula, 
+			String complemento, Boolean condominio, Integer tipo, Integer edificacao, Integer servico, String areaTotal, 
+			String areaConstruida, String banheiros, String quartos, String suites, String comodos, String vagas, 
+			String observacao) {
+		super();
+		this.id = id;
+		this.endereco = endereco;
+		this.Logradouro = Logradouro;
+		this.numero = numero;
+		this.nomProprietario = nomProprietario;
+		this.matricula = matricula;
+		this.complemento = complemento;
+		this.condominio = condominio;
+		this.tipo = tipo;
+		this.edificacao = edificacao;
+		this.servico = servico;
+		this.areaTotal = areaTotal;
+		this.areaConstruida = areaConstruida;
+		this.banheiros = banheiros;
+		this.quartos = quartos;
+		this.suites = suites;
+		this.comodos = comodos;
+		this.vagas = vagas;
+		this.observacao = observacao;
+	}
+	
+	public Imovel(Long id, Endereco endereco, String matricula, 
+			String complemento, Boolean condominio, Integer tipo, Integer edificacao, Integer servico, String areaTotal, 
+			String areaConstruida, String banheiros, String quartos, String suites, String comodos, String vagas, 
+			String observacao) {
 		super();
 		this.id = id;
 		this.endereco = endereco;
@@ -88,6 +133,7 @@ public class Imovel extends BaseEntity implements Serializable {
 		this.observacao = observacao;
 	}
 
+
 	@Override
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -97,9 +143,10 @@ public class Imovel extends BaseEntity implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
+	}	
+	
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="endereco_id")
 	public Endereco getEndereco() {
 		return endereco;
@@ -230,6 +277,44 @@ public class Imovel extends BaseEntity implements Serializable {
 	public void setFotos(Set<String> fotos) {
 		this.fotos = fotos;
 	}
+
+	@Transient
+	public String getLogradouro() {
+		return Logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		Logradouro = logradouro;
+	}
+
+	@Transient
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	@Transient
+	public String getNomProprietario() {
+		return nomProprietario;
+	}
+
+	public void setNomProprietario(String nomProprietario) {
+		this.nomProprietario = nomProprietario;
+	}
+
+	//@JsonIgnore
+	@ManyToMany(mappedBy = "imoveis", cascade = CascadeType.ALL)
+	public List<Proprietario> getProprietarios() {
+		return proprietario;
+	}
+
+	public void setProprietarios(List<Proprietario> proprietario) {
+		this.proprietario = proprietario;
+	}
+	
 	
 	
 }
