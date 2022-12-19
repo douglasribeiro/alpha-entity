@@ -58,9 +58,8 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="proprietario_id")
 	private Proprietario proprietario;
-		
-	public Endereco() {
-	}
+	
+	public Endereco() {}
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
 			TipoEndereco tipoEndereco, String cidade, String estado, Inquilino inquilino, Proprietario proprietario) {
@@ -167,7 +166,8 @@ public class Endereco implements Serializable {
 	public void setProprietario(Proprietario proprietario) {
 		this.proprietario = proprietario;
 	}
-	
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

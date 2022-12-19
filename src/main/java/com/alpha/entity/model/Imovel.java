@@ -1,42 +1,33 @@
 package com.alpha.entity.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import com.alpha.entity.model.enums.SimNao;
 import com.alpha.entity.model.enums.TipoEdificacao;
+import com.alpha.entity.model.enums.TipoEndereco;
 import com.alpha.entity.model.enums.TipoImovel;
 import com.alpha.entity.model.enums.TipoServico;
 
 @Entity
-public class Imovel implements Serializable {
+public class Imovel extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
-	private Endereco endereco;
-	
-	@Column(length = 80)
-	private String Logradouro;
-	
-	
-	@Column(length = 8)
-	private String numero;
 	
 	@Column(length = 100)
 	private String nomProprietario;
@@ -45,9 +36,9 @@ public class Imovel implements Serializable {
 	private String matricula;
 	
 	@Column(length = 256)
-	private String complemento;
+	private String complementoImovel;
 	
-	private Boolean condominio;
+	private Integer condominio;
 	
 	private Integer tipo; //TipoImovel;
 	
@@ -81,22 +72,47 @@ public class Imovel implements Serializable {
 	
 	private Set<String> fotos = new HashSet<>();
 		
-	private List<Proprietario> proprietario = new ArrayList<>();
+	private Proprietario proprietario;
+	
+	// Endereco
+	
+	@Column(length = 80)
+	private String logradouro;
+	
+	@Column(length = 8)
+	private String numero;
+	
+	@Column(length = 100)
+	private String complementoEndereco;
+	
+	@Column(length = 45)
+	private String bairro;
+	
+	@Column(length = 10)
+	private String cep;
+	
+//	@Enumerated(EnumType.ORDINAL)
+//	private TipoEndereco tipoEndereco;
+	
+	@Column(length = 75)
+	private String cidade;
+	
+	@Column(length = 2)
+	private String estado;
+	
 		
 	public Imovel() {}
 	
-	public Imovel(Long id, Endereco endereco, String Logradouro, String numero, String nomProprietario, String matricula, 
-			String complemento, Boolean condominio, Integer tipo, Integer edificacao, Integer servico, String areaTotal, 
-			String areaConstruida, String banheiros, String quartos, String suites, String comodos, String vagas, 
-			String observacao) {
+	public Imovel(Long id, String nomProprietario, String matricula, String complementoImovel, Integer condominio,
+			Integer tipo, Integer edificacao, Integer servico, String areaTotal, String areaConstruida,
+			String banheiros, String quartos, String suites, String comodos, String vagas, String observacao,
+			Proprietario proprietario, String logradouro, String numero, String complementoEndereco,
+			String bairro, String cep, String cidade, String estado) {
 		super();
 		this.id = id;
-		this.endereco = endereco;
-		this.Logradouro = Logradouro;
-		this.numero = numero;
 		this.nomProprietario = nomProprietario;
 		this.matricula = matricula;
-		this.complemento = complemento;
+		this.complementoImovel = complementoImovel;
 		this.condominio = condominio;
 		this.tipo = tipo;
 		this.edificacao = edificacao;
@@ -109,33 +125,18 @@ public class Imovel implements Serializable {
 		this.comodos = comodos;
 		this.vagas = vagas;
 		this.observacao = observacao;
-	}
-	
-	public Imovel(Long id, Endereco endereco, String matricula, 
-			String complemento, Boolean condominio, Integer tipo, Integer edificacao, Integer servico, String areaTotal, 
-			String areaConstruida, String banheiros, String quartos, String suites, String comodos, String vagas, 
-			String observacao) {
-		super();
-		this.id = id;
-		this.endereco = endereco;
-		this.matricula = matricula;
-		this.complemento = complemento;
-		this.condominio = condominio;
-		this.tipo = tipo;
-		this.edificacao = edificacao;
-		this.servico = servico;
-		this.areaTotal = areaTotal;
-		this.areaConstruida = areaConstruida;
-		this.banheiros = banheiros;
-		this.quartos = quartos;
-		this.suites = suites;
-		this.comodos = comodos;
-		this.vagas = vagas;
-		this.observacao = observacao;
+		this.proprietario = proprietario;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complementoEndereco = complementoEndereco;
+		this.bairro = bairro;
+		this.cep = cep;
+		this.cidade = cidade;
+		this.estado = estado;
 	}
 
 
-	//@Override
+	@Override
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long getId() {
@@ -147,16 +148,6 @@ public class Imovel implements Serializable {
 	}	
 	
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JoinColumn(name="endereco_id")
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
 	public String getMatricula() {
 		return matricula;
 	}
@@ -165,20 +156,12 @@ public class Imovel implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public String getComplemento() {
-		return complemento;
+	public SimNao getCondominio() {
+		return SimNao.toEnum(condominio);
 	}
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
-	public Boolean getCondominio() {
-		return condominio;
-	}
-
-	public void setCondominio(Boolean condominio) {
-		this.condominio = condominio;
+	public void setCondominio(SimNao condominio) {
+		this.condominio = condominio.getCodigo();
 	}
 	
 	public TipoImovel getTipo() {
@@ -203,6 +186,43 @@ public class Imovel implements Serializable {
 
 	public void setServico(TipoServico servico) {
 		this.servico = servico.getCodigo();
+	}
+
+	@ElementCollection
+	@CollectionTable(name="FOTO")
+	public Set<String> getFotos() {
+		return fotos;
+	}
+
+	public void setFotos(Set<String> fotos) {
+		this.fotos = fotos;
+	}
+
+	@Transient
+	public String getNomProprietario() {
+		return nomProprietario;
+	}
+
+	public void setNomProprietario(String nomProprietario) {
+		this.nomProprietario = nomProprietario;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "proprietario_id")
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public String getComplementoImovel() {
+		return complementoImovel;
+	}
+
+	public void setComplementoImovel(String complementoImovel) {
+		this.complementoImovel = complementoImovel;
 	}
 
 	public String getAreaTotal() {
@@ -269,26 +289,14 @@ public class Imovel implements Serializable {
 		this.observacao = observacao;
 	}
 
-	@ElementCollection
-	@CollectionTable(name="FOTO")
-	public Set<String> getFotos() {
-		return fotos;
-	}
-
-	public void setFotos(Set<String> fotos) {
-		this.fotos = fotos;
-	}
-
-	@Transient
 	public String getLogradouro() {
-		return Logradouro;
+		return logradouro;
 	}
 
 	public void setLogradouro(String logradouro) {
-		Logradouro = logradouro;
+		this.logradouro = logradouro;
 	}
 
-	@Transient
 	public String getNumero() {
 		return numero;
 	}
@@ -297,25 +305,44 @@ public class Imovel implements Serializable {
 		this.numero = numero;
 	}
 
-	@Transient
-	public String getNomProprietario() {
-		return nomProprietario;
+	public String getComplementoEndereco() {
+		return complementoEndereco;
 	}
 
-	public void setNomProprietario(String nomProprietario) {
-		this.nomProprietario = nomProprietario;
+	public void setComplementoEndereco(String complementoEndereco) {
+		this.complementoEndereco = complementoEndereco;
 	}
 
-	//@JsonIgnore
-	@ManyToMany(mappedBy = "imoveis", cascade = CascadeType.ALL)
-	public List<Proprietario> getProprietarios() {
-		return proprietario;
+	public String getBairro() {
+		return bairro;
 	}
 
-	public void setProprietarios(List<Proprietario> proprietario) {
-		this.proprietario = proprietario;
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
 	}
-	
-	
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}	
 	
 }

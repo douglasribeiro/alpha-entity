@@ -215,12 +215,7 @@ public class Proprietario implements Serializable {
 	}
 
 	@JsonIgnore
-	@ManyToMany()
-	@JoinTable(
-			name = "Proprietario_imovel",
-			joinColumns = @JoinColumn(name = "proprietario_id"),
-			inverseJoinColumns = @JoinColumn(name = "imoveis_id")
-			)
+	@OneToMany(mappedBy = "proprietario")
 	public List<Imovel> getImoveis() {
 		return imoveis;
 	}
