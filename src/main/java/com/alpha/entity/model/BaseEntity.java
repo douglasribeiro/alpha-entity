@@ -49,7 +49,7 @@ public abstract class BaseEntity implements Serializable{
         this.id = id;
     }
     
-    @Column(name = "dt_inserido", nullable = false)
+    @Column(name = "dt_inserido", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     public Date getIncludeDate() {
         return this.includeDate; 

@@ -1,25 +1,22 @@
 package com.alpha.entity.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import com.alpha.entity.model.enums.SimNao;
 import com.alpha.entity.model.enums.TipoEdificacao;
-import com.alpha.entity.model.enums.TipoEndereco;
 import com.alpha.entity.model.enums.TipoImovel;
 import com.alpha.entity.model.enums.TipoServico;
 
@@ -70,7 +67,7 @@ public class Imovel extends BaseEntity implements Serializable {
 	@Column(length = 256)
 	private String observacao;
 	
-	private Set<String> fotos = new HashSet<>();
+	private List<Foto> fotos = new ArrayList<>();
 		
 	private Proprietario proprietario;
 	
@@ -90,9 +87,6 @@ public class Imovel extends BaseEntity implements Serializable {
 	
 	@Column(length = 10)
 	private String cep;
-	
-//	@Enumerated(EnumType.ORDINAL)
-//	private TipoEndereco tipoEndereco;
 	
 	@Column(length = 75)
 	private String cidade;
@@ -186,16 +180,6 @@ public class Imovel extends BaseEntity implements Serializable {
 
 	public void setServico(TipoServico servico) {
 		this.servico = servico.getCodigo();
-	}
-
-	@ElementCollection
-	@CollectionTable(name="FOTO")
-	public Set<String> getFotos() {
-		return fotos;
-	}
-
-	public void setFotos(Set<String> fotos) {
-		this.fotos = fotos;
 	}
 
 	@Transient
@@ -343,6 +327,16 @@ public class Imovel extends BaseEntity implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	@OneToMany(mappedBy="imovel", cascade = CascadeType.ALL)
+	public List<Foto> getFotos() {
+		return fotos;
+	}
+
+	public void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
 	}	
+	
 	
 }
