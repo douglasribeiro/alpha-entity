@@ -1,78 +1,72 @@
 package com.alpha.entity.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Foto  extends BaseEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Foto {
 	
-	private Long id;
-	
-	@Column(length = 80)
-	private String path;
-	
-	@Column(length = 50)
-	private String descr;
-	
-	@Column(length = 100)
-	private String arquivo;
-	
-	private Imovel imovel;
-	
-	public Foto() {}
-	
-	public Foto(Long id, String path, String descr, String arquivo, Imovel imovel) {
-		super();
-		this.id = id;
-		this.path = path;
-		this.descr = descr;
-		this.imovel = imovel;
-		this.arquivo = arquivo;
+	 @Id
+	  @GeneratedValue(generator = "uuid")
+	  @GenericGenerator(name = "uuid", strategy = "uuid2")
+	  private String id;
+
+	  private String name;
+
+	  private String type;
+
+	  @Lob
+	  private byte[] data;
+	  
+	  private Imovel imovel;
+	  
+	  public Foto() {}
+
+	  public Foto(String name, String type, byte[] data, Imovel imovel) {
+	    this.name = name;
+	    this.type = type;
+	    this.data = data;
+	    this.imovel = imovel;
+	  }
+
+	public String getId() {
+		return id;
 	}
 
-	@Override
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long getId() {
-		return this.id;
-	}
-	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getPath() {
-		return path;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDescr() {
-		return descr;
+	public String getType() {
+		return type;
 	}
 
-	public void setDescr(String descr) {
-		this.descr = descr;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getArquivo() {
-		return arquivo;
+	public byte[] getData() {
+		return data;
 	}
 
-	public void setArquivo(String arquivo) {
-		this.arquivo = arquivo;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 	@JsonIgnore
@@ -84,8 +78,12 @@ public class Foto  extends BaseEntity implements Serializable {
 
 	public void setImovel(Imovel imovel) {
 		this.imovel = imovel;
-	}
-
-	
+	}	
 
 }
+
+
+
+
+
+
